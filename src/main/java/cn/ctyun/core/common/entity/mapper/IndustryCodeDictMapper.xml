@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctyun.core.common.dao.IndustryCodeDictDao">
+	<resultMap id="BaseResultMap" type="cn.ctyun.core.common.entity.IndustryCodeDict">
+		<result property="id" column="id" jdbcType="VARCHAR" />
+		<result property="code" column="code" jdbcType="VARCHAR" />
+		<result property="name" column="name" jdbcType="VARCHAR" />
+		<result property="parentCode" column="parent_code" jdbcType="VARCHAR" />
+		<result property="remark" column="remark" jdbcType="VARCHAR" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="BaseColumns">
+		id,code,name,parent_code,remark,create_time,update_time
+	</sql>
+
+	<select id="getById" resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumns" />
+		FROM industry_code_dict
+		WHERE
+		id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="save" parameterType="cn.ctyun.core.common.entity.IndustryCodeDict">
+		insert into industry_code_dict
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+				id,
+			</if>
+			<if test="code != null and code != ''">
+				code,
+			</if>
+			<if test="name != null and name != ''">
+				name,
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				parent_code,
+			</if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createTime != null ">
+				create_time,
+			</if>
+			<if test="updateTime != null ">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null and code != ''">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null and name != ''">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				#{parentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark != ''">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null ">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null ">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.ctyun.core.common.entity.IndustryCodeDict">
+		update industry_code_dict
+		<set>
+			<if test="code != null and code != ''">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null and name != ''">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				parent_code = #{parentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null ">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getByCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumns" />
+        FROM industry_code_dict
+        WHERE
+        code = #{code,jdbcType=VARCHAR}
+    </select>
+
+	<select id="getIndustryCodes" parameterType="cn.ctyun.core.common.entity.IndustryCodeDict"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumns" />
+		FROM industry_code_dict
+		<where>
+			<if test="code != null and code != ''">
+				AND code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null and name != ''">
+				AND name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND parent_code = #{parentCode,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by code
+	</select>
+
+</mapper>
+

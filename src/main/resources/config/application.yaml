@@ -1,0 +1,144 @@
+
+# 服务端口配置
+server:
+  port: 8090
+  servlet:
+    context-path: /am
+
+spring:
+  profiles:
+    active: development
+  # 配置日期的json格式为时间戳格式
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  # 数据源配置
+  datasource:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 初始化大小，最小，最大
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      removeAbandoned: true
+      removeAbandonedTimeout: 1800
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      logAbandoned: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,log4j2
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true
+
+  mybatis:
+    #mapper位置
+    #mapperLocations: classpath:mapper/*.xml
+    mapperLocations: classpath:cn/ctyun/core/**/mapper/*.xml
+    configuration:
+      default-statement-timeout: 60
+      
+#日志配置文件
+logging:
+  config: classpath:config/log4j2.yaml
+#满日志时间
+druid:
+  stat:
+    slowSqlMillis: 50
+
+---
+#开发环境配置
+spring:
+  profiles: development
+  datasource:
+    url: jdbc:mysql://192.168.13.178:3306/portal?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: portal
+    password: portal.ctyun
+
+  # Redis
+  redis:
+    host: 192.168.13.43
+    port: 6379
+    password: ctyun
+    # Redis数据库索引（默认为0）
+    database: 3
+    # 连接超时时间（毫秒）
+    timeout: 15000
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 20
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 2
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+  # MongoDB
+  data:
+    mongodb:
+      host: 192.168.13.43
+      port: 27017
+      database: portal
+
+  # MQ
+  rabbitmq:
+    host: 192.168.13.100
+    virtualHost: billing
+    port: 5672
+    username: billing
+    password: billing
+
+---
+# 生产环境配置
+spring:
+  profiles: production
+  datasource:
+    url: jdbc:mysql://10.144.242.13:3306/portal?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: portal_core
+    password: portal_core.ctyun
+  # Redis
+  redis:
+    host: 10.144.242.82
+    port: 6379
+    password: ctyun@2017@chinatelecom!
+    # Redis数据库索引（默认为0）
+    database: 2
+    # 连接超时时间（毫秒）
+    timeout: 15000
+    pool:
+      # 连接池最大连接数（使用负值表示没有限制）
+      max-active: 20
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: 2
+      # 连接池中的最大空闲连接
+      max-idle: 10
+      # 连接池中的最小空闲连接
+      min-idle: 0
+
+  # MongoDB
+  data:
+    mongodb:
+      host: 10.144.242.113
+      port: 27017
+      database: portal
+
+  # MQ
+  rabbitmq:
+    host: 10.144.242.11
+    virtualHost: portalcore
+    port: 5672
+    username: portal
+    password: portal
+    concurrency: 200
+
