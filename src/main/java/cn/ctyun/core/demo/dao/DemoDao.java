@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import cn.ctyun.core.base.dao.GenericDao;
+import cn.ctyun.core.base.datasource.annotation.DataSource;
 import cn.ctyun.core.demo.entity.DemoTable;
 
 @Mapper
@@ -16,6 +17,7 @@ public interface DemoDao extends GenericDao<DemoTable, String> {
      *            ID
      * @return
      */
+    @DataSource("slaver_1")
     public DemoTable getById(@Param("id") String id);
 
 }
