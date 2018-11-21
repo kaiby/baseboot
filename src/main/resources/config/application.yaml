@@ -12,41 +12,43 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: true
-  # 数据源配置
+  
+  # 数据源公共配置
   datasource:
-      driverClassName: com.mysql.cj.jdbc.Driver
-      type: com.alibaba.druid.pool.DruidDataSource
-      # 初始化大小，最小，最大
-      initialSize: 5
-      minIdle: 5
-      maxActive: 20
-      # 配置获取连接等待超时的时间
-      maxWait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      timeBetweenEvictionRunsMillis: 60000
-      removeAbandoned: true
-      removeAbandonedTimeout: 1800
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      minEvictableIdleTimeMillis: 300000
-      validationQuery: SELECT 1 FROM DUAL
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      # 打开PSCache，并且指定每个连接上PSCache的大小
-      poolPreparedStatements: true
-      maxPoolPreparedStatementPerConnectionSize: 20
-      logAbandoned: true
-      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j2
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connectionProperties: druid.stat.mergeSql=true
+    # 初始化大小，最小，最大
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    removeAbandoned: true
+    removeAbandonedTimeout: 1800
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    logAbandoned: true
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j2
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true
+  
 
-  mybatis:
-    #mapper位置
-    #mapperLocations: classpath:mapper/*.xml
-    mapperLocations: classpath:cn/ctyun/core/**/mapper/*.xml
-    configuration:
-      default-statement-timeout: 60
+mybatis:
+  # mapper文件位置
+  mapper-locations: classpath:cn/ctyun/core/**/mapper/*.xml
+  configuration:
+    # 自动驼峰命名规则
+    map-underscore-to-camel-case: true
+    # 设置超时时间（秒）
+    default-statement-timeout: 60
       
 #日志配置文件
 logging:
@@ -61,9 +63,29 @@ druid:
 spring:
   profiles: development
   datasource:
-    url: jdbc:mysql://192.168.13.178:3306/portal?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
-    username: portal
-    password: portal.ctyun
+    # 主数据源
+    master: 
+      driverClassName: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://192.168.13.178:3306/portal?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+      username: portal
+      password: portal.ctyun
+    
+    # 从数据源
+    cluster: 
+      - key: slaver_1
+        driverClassName: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://192.168.13.178:3306/portal_finance?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+        username: portal
+        password: portal.ctyun
+        
+      - key: slaver_2
+        driverClassName: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://192.168.13.178:3306/portal_finance?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+        username: portal
+        password: portal.ctyun
 
   # Redis
   redis:
