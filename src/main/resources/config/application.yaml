@@ -40,7 +40,6 @@ spring:
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true
   
-
 mybatis:
   # mapper文件位置
   mapper-locations: classpath:cn/ctyun/core/**/mapper/*.xml
