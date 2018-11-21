@@ -41,12 +41,14 @@ spring:
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connectionProperties: druid.stat.mergeSql=true
 
-  mybatis:
-    #mapper位置
-    #mapperLocations: classpath:mapper/*.xml
-    mapperLocations: classpath:cn/ctyun/core/**/mapper/*.xml
-    configuration:
-      default-statement-timeout: 60
+mybatis:
+  #mapper文件位置
+  mapper-locations: classpath:cn/ctyun/core/**/mapper/*.xml
+  configuration:
+    # 自动驼峰命名规则
+    map-underscore-to-camel-case: true
+    # 设置超时时间（秒）
+    default-statement-timeout: 60
       
 #日志配置文件
 logging:
