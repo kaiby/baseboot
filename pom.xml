@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>cn.ctyun.core</groupId>
-	<artifactId>account_management</artifactId>
+	<artifactId>baseboot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>account_management</name>
-	<description>ctyun account management</description>
+	<name>baseboot</name>
+	<description>base boot frame</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
