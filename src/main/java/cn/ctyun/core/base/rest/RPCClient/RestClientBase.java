@@ -44,10 +44,10 @@ public abstract class RestClientBase {
 
     protected void initHttpHeader(HttpRequestBase requestBase, Map<String, String> headerParam) {
         if (headerParam != null) {
-            Iterator var4 = headerParam.entrySet().iterator();
+            Iterator<Entry<String, String>> var4 = headerParam.entrySet().iterator();
 
             while (var4.hasNext()) {
-                Entry entry = (Entry) var4.next();
+                Entry<String, String> entry = var4.next();
                 requestBase.addHeader((String) entry.getKey(), (String) entry.getValue());
             }
         }

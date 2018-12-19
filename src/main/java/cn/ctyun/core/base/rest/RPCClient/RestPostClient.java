@@ -28,8 +28,8 @@ public class RestPostClient extends RestClientBase {
             this.setURI(e, requestURI);
             this.initHttpHeader(e, headerParam);
             if (postParam != null) {
-                ArrayList params = new ArrayList();
-                Iterator var7 = postParam.entrySet().iterator();
+                ArrayList<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+                Iterator<Entry<String, String>> var7 = postParam.entrySet().iterator();
 
                 while (true) {
                     if (!var7.hasNext()) {
@@ -38,8 +38,8 @@ public class RestPostClient extends RestClientBase {
                         break;
                     }
 
-                    Entry entity = (Entry) var7.next();
-                    params.add(new BasicNameValuePair((String) entity.getKey(), (String) entity.getValue()));
+                    Entry<String, String> entity = var7.next();
+                    params.add(new BasicNameValuePair(entity.getKey(), entity.getValue()));
                 }
             }
 
