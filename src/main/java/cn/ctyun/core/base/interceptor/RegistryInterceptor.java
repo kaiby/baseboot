@@ -8,14 +8,14 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Created by zhouxiaobo on 2017/6/16. 注册拦截器
  */
 
-//@Configuration
-public class RegistryInterceptor extends WebMvcConfigurerAdapter {
+// @Configuration
+public class RegistryInterceptor implements WebMvcConfigurer {
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {
@@ -28,7 +28,8 @@ public class RegistryInterceptor extends WebMvcConfigurerAdapter {
 
         // 多个拦截器组成一个拦截器链
         // 取消使用拦截器方式处理请求日志，改用AOP
-        // registry.addInterceptor(new ParamInterceptor()).addPathPatterns("/**");
+        // registry.addInterceptor(new
+        // ParamInterceptor()).addPathPatterns("/**");
 
         // addPathPatterns 用于添加拦截规则
 
@@ -37,7 +38,6 @@ public class RegistryInterceptor extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
         converters.add(responseBodyConverter());
     }
 
