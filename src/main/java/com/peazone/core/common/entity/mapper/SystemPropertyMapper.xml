@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peazone.core.common.dao.SystemPropertyDao">
+	<resultMap id="BaseResultMap" type="com.peazone.core.common.entity.SystemPropertyPO">
+		<result property="id" column="id" jdbcType="VARCHAR" />
+		<result property="groupName" column="group_name" jdbcType="VARCHAR" />
+		<result property="groupCode" column="group_code" jdbcType="VARCHAR" />
+		<result property="name" column="name" jdbcType="VARCHAR" />
+		<result property="code" column="code" jdbcType="VARCHAR" />
+		<result property="value" column="value" jdbcType="VARCHAR" />
+		<result property="isAutoLoad" column="is_auto_load" jdbcType="INTEGER" />
+		<result property="isValid" column="is_valid" jdbcType="INTEGER" />
+		<result property="sequenceNum" column="sequence_num" jdbcType="INTEGER" />
+		<result property="remark" column="remark" jdbcType="VARCHAR" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="BaseColumns">
+		id,group_name,group_code,name,code,value,is_auto_load,is_valid,sequence_num,remark,create_time,update_time
+	</sql>
+
+	<select id="getById" resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumns" />
+		FROM system_property
+		WHERE
+		id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insert" parameterType="com.peazone.core.common.entity.SystemPropertyPO">
+		insert into system_property
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+				id,
+			</if>
+			<if test="groupName != null and groupName != ''">
+				group_name,
+			</if>
+			<if test="groupCode != null and groupCode != ''">
+                group_code,
+            </if>
+			<if test="name != null and name != ''">
+				name,
+			</if>
+			<if test="code != null and code != ''">
+                code,
+            </if>
+			<if test="value != null and value != ''">
+				value,
+			</if>
+			<if test="isAutoLoad != null ">
+				is_auto_load,
+			</if>
+			<if test="isValid != null ">
+				is_valid,
+			</if>
+			<if test="sequenceNum != null ">
+                sequence_num,
+            </if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createTime != null ">
+				create_time,
+			</if>
+			<if test="updateTime != null ">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null and groupName != ''">
+				#{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="groupCode != null and groupCode != ''">
+                #{groupCode,jdbcType=VARCHAR},
+            </if>
+			<if test="name != null and name != ''">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null and code != ''">
+                #{code,jdbcType=VARCHAR},
+            </if>
+			<if test="value != null and value != ''">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="isAutoLoad != null">
+				#{isAutoLoad,jdbcType=INTEGER},
+			</if>
+			<if test="isValid != null">
+				#{isValid,jdbcType=INTEGER},
+			</if>
+			<if test="sequenceNum != null">
+                #{sequenceNum,jdbcType=INTEGER},
+            </if>
+			<if test="remark != null and remark != ''">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null ">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null ">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.peazone.core.common.entity.SystemPropertyPO">
+		update system_property
+		<set>
+			<if test="groupName != null and groupName != ''">
+				group_name = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="groupCode != null and groupCode != ''">
+                group_code = #{groupCode,jdbcType=VARCHAR},
+            </if>
+			<if test="name != null and name != ''">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null and code != ''">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+			<if test="value != null and value != ''">
+				value = #{value,jdbcType=VARCHAR},
+			</if>
+			<if test="isAutoLoad != null ">
+				is_auto_load = #{isAutoLoad,jdbcType=INTEGER},
+			</if>
+			<if test="isValid != null">
+				is_valid = #{isValid,jdbcType=INTEGER},
+			</if>
+			<if test="sequenceNum != null">
+                sequence_num = #{sequenceNum,jdbcType=INTEGER},
+            </if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null ">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getProperties" parameterType="com.peazone.core.common.entity.SystemPropertyPO" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumns" />
+        FROM system_property
+        <where>
+            <if test="groupName != null and groupName != ''">
+                AND group_name = #{groupName,jdbcType=VARCHAR}
+            </if>
+            <if test="groupCode != null and groupCode != ''">
+                AND group_code = #{groupCode,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="code != null and code != ''">
+                AND code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="isAutoLoad != null">
+                AND is_auto_load = #{isAutoLoad,jdbcType=INTEGER}
+            </if>
+            <if test="isValid != null ">
+                AND is_valid = #{isValid,jdbcType=INTEGER}
+            </if>
+        </where>
+        order by group_code,sequence_num
+    </select>
+
+</mapper>
+

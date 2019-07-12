@@ -1,9 +1,9 @@
 
 # 服务端口配置
 server:
-  port: 8090
+  port: 8080
   servlet:
-    context-path: /am
+    context-path: /peazone
 
 spring:
   profiles:
@@ -43,7 +43,7 @@ spring:
 
 mybatis:
   #mapper文件位置
-  mapper-locations: classpath:cn/ctyun/core/**/mapper/*.xml
+  mapper-locations: classpath:com/peazone/**/mapper/*.xml
   configuration:
     # 自动驼峰命名规则
     map-underscore-to-camel-case: true
